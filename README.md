@@ -9,9 +9,9 @@ This document outlines the automated lifecycle of code within this repository. W
 
 ```mermaid
 graph LR
-    A[📂 Feature Branch] -- "Manual PR" --> B(🛠️ devGA Branch)
+    A[📂 Feature Branch] -- "Manual PR" --> B(🛠️ develop Branch)
     B -- "GitHub Action Trigger" --> C{🤖 Auto-Create PR}
-    C --> D(🧪 testingGA Branch)
+    C --> D(🧪 testing Branch)
     D -- "Deployment" --> E{{🚀 QA Environment}}
 ```
 
