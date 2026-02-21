@@ -1,0 +1,43 @@
+name: Auto-Merge Dev to Testing
+
+# This trigger runs whenever code is pushed (or a PR is merged) into devGA
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  merge-branches:
+    runs-on: ubuntu-latest
+    # This permission allows the action to push changes back to your repo
+    permissions:
+      contents: write
+
+    steps:
+      # 1. Pull the latest code from the repo
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      # 2. Tell Git who is performing the merge
+      - name: Set Git Identity
+        run: |
+          git config --global user.name "Coderanildangi"
+          git config --global user.email "anil.dangi@cctech.co.in"
+
+      # 3. Perform the merge logic
+      - name: Merge develop into testing
+        run: |
+          # Fetch all branches to ensure testing is visible
+          git fetch origin testing
+          
+          # Switch to the testing branch
+          git checkout testing
+          
+          # Merge the changes from develop
+          # --no-ff creates a merge commit so you can see the history clearly
+          git merge origin/develop --no-ff -m "Automated merge: develop to testing"
+          
+          # Push the merged code back to GitHub
+          git push origin testing
